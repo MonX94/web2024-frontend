@@ -1,42 +1,41 @@
 import React from 'react';
-import { LinkContainer } from 'react-router-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { logout } from '../actions/authActions';
-import { Navbar, Nav, NavDropdown, Container } from 'react-bootstrap';
+import { Navbar, Nav, Button, Container } from 'react-bootstrap';
 
-const CustomNavbar = () => {
+const AppNavbar = () => {
   const dispatch = useDispatch();
-  const { user, isAuthenticated } = useSelector(state => state.auth);
+  const auth = useSelector((state) => state.auth);
 
-  const handleLogout = () => {
+  const onLogout = () => {
     dispatch(logout());
   };
+
+  const authLinks = (
+    <>
+      <Nav.Link as={Link} to="/posts">Posts</Nav.Link>
+      {auth.user && auth.user.role === 'admin' && <Nav.Link as={Link} to="/create-post">Create Post</Nav.Link>}
+      <Navbar.Text className="mr-3">Signed in as: {auth.user && auth.user.username}</Navbar.Text>
+      <Button variant="outline-light" onClick={onLogout}>Logout</Button>
+    </>
+  );
+
+  const guestLinks = (
+    <>
+      <Nav.Link as={Link} to="/register">Register</Nav.Link>
+      <Nav.Link as={Link} to="/login">Login</Nav.Link>
+    </>
+  );
 
   return (
     <Navbar bg="dark" variant="dark" expand="lg">
       <Container>
-        <LinkContainer to="/">
-          <Navbar.Brand>My Blog</Navbar.Brand>
-        </LinkContainer>
+        <Navbar.Brand as={Link} to="/">Blog</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ml-auto">
-            {isAuthenticated ? (
-              <>
-                <NavDropdown title={`Hello, ${user && user.username}`} id="basic-nav-dropdown">
-                  <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
-                </NavDropdown>
-              </>
-            ) : (
-              <>
-                <LinkContainer to="/login">
-                  <Nav.Link>Login</Nav.Link>
-                </LinkContainer>
-                <LinkContainer to="/register">
-                  <Nav.Link>Register</Nav.Link>
-                </LinkContainer>
-              </>
-            )}
+            {auth.isAuthenticated ? authLinks : guestLinks}
           </Nav>
         </Navbar.Collapse>
       </Container>
@@ -44,4 +43,4 @@ const CustomNavbar = () => {
   );
 };
 
-export default CustomNavbar;
+export default AppNavbar;

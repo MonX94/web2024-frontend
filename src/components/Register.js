@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { register } from '../actions/authActions';
+import { Form, Button, Container, Alert } from 'react-bootstrap';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -23,16 +24,27 @@ const Register = () => {
   };
 
   return (
-    <div className="auth">
+    <Container className="mt-5">
       <h1>Register</h1>
-      {error && <p className="error">{error}</p>}
-      <form onSubmit={onSubmit}>
-        <input type="text" name="username" value={username} onChange={onChange} required />
-        <input type="email" name="email" value={email} onChange={onChange} required />
-        <input type="password" name="password" value={password} onChange={onChange} required />
-        <button type="submit">Register</button>
-      </form>
-    </div>
+      {error && <Alert variant="danger">{error}</Alert>}
+      <Form onSubmit={onSubmit}>
+        <Form.Group controlId="formBasicUsername">
+          <Form.Label>Username</Form.Label>
+          <Form.Control type="text" name="username" value={username} onChange={onChange} required />
+        </Form.Group>
+        <Form.Group controlId="formBasicEmail">
+          <Form.Label>Email address</Form.Label>
+          <Form.Control type="email" name="email" value={email} onChange={onChange} required />
+        </Form.Group>
+        <Form.Group controlId="formBasicPassword">
+          <Form.Label>Password</Form.Label>
+          <Form.Control type="password" name="password" value={password} onChange={onChange} required />
+        </Form.Group>
+        <Button variant="primary" type="submit">
+          Register
+        </Button>
+      </Form>
+    </Container>
   );
 };
 
