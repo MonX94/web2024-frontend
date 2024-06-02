@@ -45,7 +45,7 @@ const PostItem = () => {
           <Card.Text>{post.content}</Card.Text>
           <Card.Footer>
             {post.comments.map(comment => (
-              <Comment key={comment._id} comment={comment} onDelete={handleDelete} isAdmin={user.user.role === 'admin'} />
+              <Comment key={comment._id} comment={comment} onDelete={handleDelete} isAdmin={user.role === 'admin'} />
             ))}
             {isAuthenticated && (
               <Form onSubmit={onSubmit}>

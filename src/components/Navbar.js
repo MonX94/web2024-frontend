@@ -16,7 +16,7 @@ const AppNavbar = () => {
     <>
       <Nav.Link as={Link} to="/">Posts</Nav.Link>
       {auth.user && auth.user.role === 'admin' && <Nav.Link as={Link} to="/create-post">Create Post</Nav.Link>}
-      <Navbar.Text className="mr-3">Signed in as: {auth.user && auth.user.user.username}</Navbar.Text>
+      <Navbar.Text className="mr-3">Signed in as: {auth.user && auth.user.username}</Navbar.Text>
       <Button variant="outline-light" onClick={onLogout}>Logout</Button>
     </>
   );
