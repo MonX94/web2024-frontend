@@ -1,31 +1,33 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchPosts } from '../actions/postActions';
-import { Container, Card, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { Container, ListGroup } from 'react-bootstrap';
 
-const PostList = () => {
+const Posts = () => {
   const dispatch = useDispatch();
-  const posts = useSelector(state => state.post.posts);
+  const posts = useSelector(state => state.posts.posts);
 
   useEffect(() => {
     dispatch(fetchPosts());
   }, [dispatch]);
 
+  if (!posts) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <Container>
       <h1>Posts</h1>
-      {posts.map(post => (
-        <Card key={post._id} className="mb-3">
-          <Card.Body>
-            <Card.Title>{post.title}</Card.Title>
-            <Card.Text>{post.content}</Card.Text>
-            <Button as={Link} to={`/posts/${post._id}`}>View Post</Button>
-          </Card.Body>
-        </Card>
-      ))}
+      <ListGroup>
+        {posts.map(post => (
+          <ListGroup.Item key={post._id}>
+            <Link to={`/posts/${post._id}`}>{post.title}</Link>
+          </ListGroup.Item>
+        ))}
+      </ListGroup>
     </Container>
   );
 };
 
-export default PostList;
+export default Posts;

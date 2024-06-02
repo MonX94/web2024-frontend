@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Routes, Route, BrowserRouter as Router } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import Navbar from './components/Navbar';
 import Register from './components/Register';
@@ -19,7 +19,7 @@ const App = () => {
   }, [dispatch]);
 
   return (
-    <Router>
+    <>
       <Navbar />
       <Routes>
         <Route path="/" element={<Posts />} />
@@ -28,7 +28,7 @@ const App = () => {
         <Route path="/posts/:id" element={<PostItem />} />
         <Route path="/create-post" element={<CreatePost />} />
       </Routes>
-    </Router>
+    </>
   );
 };
 
