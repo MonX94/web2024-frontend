@@ -8,6 +8,7 @@ export const loadUser = () => async (dispatch) => {
   }
   try {
     const res = await axios.get('http://localhost:5000/api/auth/user');
+    res.data.token = localStorage.token;
     dispatch(loginSuccess(res.data));
   } catch (err) {
     console.log(err);

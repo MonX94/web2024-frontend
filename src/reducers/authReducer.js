@@ -29,7 +29,7 @@ const authSlice = createSlice({
       state.loading = false;
       state.user = null;
       state.role = null;
-      state.error = action.payload; // Зберігаємо повідомлення про помилку
+      state.error = action.payload;
     },
     loginSuccess(state, action) {
       localStorage.setItem('token', action.payload.token);
@@ -47,7 +47,7 @@ const authSlice = createSlice({
       state.loading = false;
       state.user = null;
       state.role = null;
-      state.error = action.payload; // Зберігаємо повідомлення про помилку
+      state.error = action.payload;
     },
     logoutSuccess(state) {
       localStorage.removeItem('token');
@@ -71,7 +71,7 @@ const authSlice = createSlice({
       state.loading = false;
       state.user = null;
       state.role = null;
-      state.error = action.payload; // Зберігаємо повідомлення про помилку
+      state.error = action.payload;
     }
   }
 });

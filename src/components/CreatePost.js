@@ -1,15 +1,21 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { createNewPost } from '../actions/postActions';
 import { Form, Button, Container } from 'react-bootstrap';
 
 const CreatePost = () => {
   const [formData, setFormData] = useState({
     title: '',
-    content: ''
+    content: '',
+    user: ''
   });
 
   const dispatch = useDispatch();
+  const authUser = useSelector(state => state.auth.user);
+
+  useEffect(() => {
+    setFormData(formData => ({ ...formData, user: authUser }));
+  }, [authUser]);
 
   const { title, content } = formData;
 
