@@ -6,41 +6,41 @@ const postSlice = createSlice({
   initialState: {
     posts: [],
     post: null,
-    status: 'idle',
-    error: null,
+    loading: true,
+    error: null
   },
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchPosts.pending, (state) => {
-        state.status = 'loading';
-      })
       .addCase(fetchPosts.fulfilled, (state, action) => {
-        state.status = 'succeeded';
         state.posts = action.payload;
-      })
-      .addCase(fetchPosts.rejected, (state, action) => {
-        state.status = 'failed';
-        state.error = action.error.message;
-      })
-      .addCase(fetchPost.pending, (state) => {
-        state.status = 'loading';
+        state.loading = false;
       })
       .addCase(fetchPost.fulfilled, (state, action) => {
-        state.status = 'succeeded';
         state.post = action.payload;
-      })
-      .addCase(fetchPost.rejected, (state, action) => {
-        state.status = 'failed';
-        state.error = action.error.message;
+        state.loading = false;
       })
       .addCase(createNewPost.fulfilled, (state, action) => {
         state.posts.push(action.payload);
       })
       .addCase(addNewComment.fulfilled, (state, action) => {
         if (state.post) {
-          state.post.comments.push(action.payload);
+          state.post.comments = action.payload;
         }
+      })
+      .addCase(fetchPosts.rejected, (state, action) => {
+        state.error = action.error.message;
+        state.loading = false;
+      })
+      .addCase(fetchPost.rejected, (state, action) => {
+        state.error = action.error.message;
+        state.loading = false;
+      })
+      .addCase(createNewPost.rejected, (state, action) => {
+        state.error = action.error.message;
+      })
+      .addCase(addNewComment.rejected, (state, action) => {
+        state.error = action.error.message;
       });
   }
 });

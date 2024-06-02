@@ -46,7 +46,7 @@ export const addNewComment = createAsyncThunk('posts/addNewComment', async (post
                 'Authorization': `Bearer ${state.auth.token}`
             }
         };
-        const response = await axios.post(`http://localhost:5000/api/posts/${postData.id}/comments`, postData.content, config);
+        const response = await axios.post(`http://localhost:5000/api/posts/${postData.postId}/comments`, { content: postData.content }, config);
         return response.data;
     } catch (error) {
         // Handle error

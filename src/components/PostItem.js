@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { fetchPost, addNewComment } from '../actions/postActions';
 import { Card, Form, Button, Container, Spinner, Alert } from 'react-bootstrap';
+import Comment from './Comment';
 
 const PostItem = () => {
   const { id } = useParams();
@@ -17,7 +18,7 @@ const PostItem = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    dispatch(addNewComment({id: post._id, content: comment}));
+    dispatch(addNewComment({ postId: id, content: comment }));
     setComment('');
   };
 
@@ -33,13 +34,15 @@ const PostItem = () => {
   }
 
   return (
-    <Container className="mt-5">
-      {error && <Alert variant="danger">{error}</Alert>}
+    <Container>
       <Card>
         <Card.Body>
           <Card.Title>{post.title}</Card.Title>
           <Card.Text>{post.content}</Card.Text>
           <Card.Footer>
+            {post.comments.map(comment => (
+              <Comment key={comment._id} comment={comment} />
+            ))}
             {isAuthenticated && (
               <Form onSubmit={onSubmit}>
                 <Form.Group>
