@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../actions/authActions';
+import { Form, Button, Container, Alert } from 'react-bootstrap';
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -22,15 +23,23 @@ const Login = () => {
   };
 
   return (
-    <div className="auth">
+    <Container className="mt-5">
       <h1>Login</h1>
-      {error && <p className="error">{error}</p>}
-      <form onSubmit={onSubmit}>
-        <input type="email" name="email" value={email} onChange={onChange} required />
-        <input type="password" name="password" value={password} onChange={onChange} required />
-        <button type="submit">Login</button>
-      </form>
-    </div>
+      {error && <Alert variant="danger">{error}</Alert>}
+      <Form onSubmit={onSubmit}>
+        <Form.Group controlId="formBasicEmail">
+          <Form.Label>Email address</Form.Label>
+          <Form.Control type="email" name="email" value={email} onChange={onChange} required />
+        </Form.Group>
+        <Form.Group controlId="formBasicPassword">
+          <Form.Label>Password</Form.Label>
+          <Form.Control type="password" name="password" value={password} onChange={onChange} required />
+        </Form.Group>
+        <Button variant="primary" type="submit">
+          Login
+        </Button>
+      </Form>
+    </Container>
   );
 };
 
