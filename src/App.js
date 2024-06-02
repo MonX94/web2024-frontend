@@ -7,15 +7,15 @@ import Login from './components/Login';
 import Posts from './components/Posts';
 import PostItem from './components/PostItem';
 import CreatePost from './components/CreatePost';
-import { fetchPosts } from './actions/postActions';
 import { loadUser } from './actions/authActions';
 
 const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(loadUser());
-    dispatch(fetchPosts());
+    if (localStorage.token) {
+      dispatch(loadUser());
+    }
   }, [dispatch]);
 
   return (

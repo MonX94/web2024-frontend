@@ -1,43 +1,55 @@
+import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { fetchPostsSuccess, fetchPostSuccess, createPostSuccess, addCommentSuccess } from '../reducers/postReducer';
-
-export const fetchPosts = () => async (dispatch) => {
+export const fetchPosts = createAsyncThunk('posts/fetchPosts', async () => {
     try {
-        const res = await axios.get('http://localhost:5000/api/posts');
-        dispatch(fetchPostsSuccess(res.data));
+        const response = await axios.get('http://localhost:5000/api/posts');
+        return response.data;
     } catch (error) {
-        console.error(error);
+        // Handle error
+        throw error;
     }
-};
+});
 
-export const fetchPost = (id) => async (dispatch) => {
+export const fetchPost = createAsyncThunk('posts/fetchPost', async (id) => {
     try {
-        const res = await axios.get(`http://localhost:5000/api/posts/${id}`);
-        dispatch(fetchPostSuccess(res.data));
+        const response = await axios.get(`http://localhost:5000/api/posts/${id}`);
+        return response.data;
     } catch (error) {
-        console.error(error);
+        // Handle error
+        throw error;
     }
-};
+});
 
-export const createNewPost = (postData) => async (dispatch) => {
+export const createNewPost = createAsyncThunk('posts/createNewPost', async (postData, thunkAPI) => {
     try {
-        const res = await axios.post('http://localhost:5000/api/posts', postData, {
+        const state = thunkAPI.getState();
+        const config = {
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem('token')}`
+                'Authorization': `Bearer ${state.auth.token}`
             }
-        });
-        dispatch(createPostSuccess(res.data));
+        };
+        const response = await axios.post('http://localhost:5000/api/posts', postData, config);
+        return response.data;
     } catch (error) {
-        console.error(error);
+        // Handle error
+        throw error;
     }
-};
+});
 
-export const addNewComment = (postId, commentData) => async (dispatch) => {
+export const addNewComment = createAsyncThunk('posts/addNewComment', async (postData, thunkAPI) => {
     try {
-        const res = await axios.post(`http://localhost:5000/api/posts/${postId}/comments`, commentData);
-        dispatch(addCommentSuccess(res.data));
+        const state = thunkAPI.getState();
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${state.auth.token}`
+            }
+        };
+        const response = await axios.post(`http://localhost:5000/api/posts/${postData.id}/comments`, postData.content, config);
+        return response.data;
     } catch (error) {
-        console.error(error);
+        // Handle error
+        throw error;
     }
-};
+});

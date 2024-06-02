@@ -1,29 +1,48 @@
 import { createSlice } from '@reduxjs/toolkit';
-
-const initialState = {
-  posts: [],
-  post: null,
-};
+import { fetchPosts, fetchPost, createNewPost, addNewComment } from '../actions/postActions';
 
 const postSlice = createSlice({
-  name: 'post',
-  initialState,
-  reducers: {
-    fetchPostsSuccess(state, action) {
-      state.posts = action.payload;
-    },
-    fetchPostSuccess(state, action) {
-      state.post = action.payload;
-    },
-    createPostSuccess(state, action) {
-      state.posts.push(action.payload);
-    },
-    addCommentSuccess(state, action) {
-      state.post.comments.push(action.payload);
-    },
+  name: 'posts',
+  initialState: {
+    posts: [],
+    post: null,
+    status: 'idle',
+    error: null,
   },
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchPosts.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(fetchPosts.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.posts = action.payload;
+      })
+      .addCase(fetchPosts.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.error.message;
+      })
+      .addCase(fetchPost.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(fetchPost.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.post = action.payload;
+      })
+      .addCase(fetchPost.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.error.message;
+      })
+      .addCase(createNewPost.fulfilled, (state, action) => {
+        state.posts.push(action.payload);
+      })
+      .addCase(addNewComment.fulfilled, (state, action) => {
+        if (state.post) {
+          state.post.comments.push(action.payload);
+        }
+      });
+  }
 });
-
-export const { fetchPostsSuccess, fetchPostSuccess, createPostSuccess, addCommentSuccess } = postSlice.actions;
 
 export default postSlice.reducer;
