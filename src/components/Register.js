@@ -4,12 +4,19 @@ import { register } from '../actions/authActions';
 import { Form, Button, Container } from 'react-bootstrap';
 
 const Register = () => {
-  const [formData, setFormData] = useState({ username: '', email: '', password: '' });
+  const [formData, setFormData] = useState({
+    username: '',
+    email: '',
+    password: ''
+  });
+
   const dispatch = useDispatch();
 
-  const onChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
+  const { username, email, password } = formData;
 
-  const onSubmit = (e) => {
+  const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
+
+  const onSubmit = e => {
     e.preventDefault();
     dispatch(register(formData));
   };
@@ -18,19 +25,45 @@ const Register = () => {
     <Container>
       <h1>Register</h1>
       <Form onSubmit={onSubmit}>
-        <Form.Group>
+        <Form.Group controlId="username">
           <Form.Label>Username</Form.Label>
-          <Form.Control type="text" name="username" value={formData.username} onChange={onChange} required />
+          <Form.Control
+            type="text"
+            placeholder="Enter username"
+            name="username"
+            value={username}
+            onChange={onChange}
+            required
+          />
         </Form.Group>
-        <Form.Group>
-          <Form.Label>Email</Form.Label>
-          <Form.Control type="email" name="email" value={formData.email} onChange={onChange} required />
+
+        <Form.Group controlId="email">
+          <Form.Label>Email address</Form.Label>
+          <Form.Control
+            type="email"
+            placeholder="Enter email"
+            name="email"
+            value={email}
+            onChange={onChange}
+            required
+          />
         </Form.Group>
-        <Form.Group>
+
+        <Form.Group controlId="password">
           <Form.Label>Password</Form.Label>
-          <Form.Control type="password" name="password" value={formData.password} onChange={onChange} required />
+          <Form.Control
+            type="password"
+            placeholder="Password"
+            name="password"
+            value={password}
+            onChange={onChange}
+            required
+          />
         </Form.Group>
-        <Button type="submit">Register</Button>
+
+        <Button variant="primary" type="submit">
+          Register
+        </Button>
       </Form>
     </Container>
   );

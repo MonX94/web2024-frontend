@@ -4,12 +4,18 @@ import { login } from '../actions/authActions';
 import { Form, Button, Container } from 'react-bootstrap';
 
 const Login = () => {
-  const [formData, setFormData] = useState({ email: '', password: '' });
+  const [formData, setFormData] = useState({
+    email: '',
+    password: ''
+  });
+
   const dispatch = useDispatch();
 
-  const onChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
+  const { email, password } = formData;
 
-  const onSubmit = (e) => {
+  const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
+
+  const onSubmit = e => {
     e.preventDefault();
     dispatch(login(formData));
   };
@@ -18,15 +24,33 @@ const Login = () => {
     <Container>
       <h1>Login</h1>
       <Form onSubmit={onSubmit}>
-        <Form.Group>
-          <Form.Label>Email</Form.Label>
-          <Form.Control type="email" name="email" value={formData.email} onChange={onChange} required />
+        <Form.Group controlId="email">
+          <Form.Label>Email address</Form.Label>
+          <Form.Control
+            type="email"
+            placeholder="Enter email"
+            name="email"
+            value={email}
+            onChange={onChange}
+            required
+          />
         </Form.Group>
-        <Form.Group>
+
+        <Form.Group controlId="password">
           <Form.Label>Password</Form.Label>
-          <Form.Control type="password" name="password" value={formData.password} onChange={onChange} required />
+          <Form.Control
+            type="password"
+            placeholder="Password"
+            name="password"
+            value={password}
+            onChange={onChange}
+            required
+          />
         </Form.Group>
-        <Button type="submit">Login</Button>
+
+        <Button variant="primary" type="submit">
+          Login
+        </Button>
       </Form>
     </Container>
   );
