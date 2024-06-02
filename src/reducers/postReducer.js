@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchPosts, fetchPost, createNewPost, addNewComment } from '../actions/postActions';
+import { fetchPosts, fetchPost, createNewPost, addNewComment, deleteComment } from '../actions/postActions';
 
 const postSlice = createSlice({
   name: 'posts',
@@ -28,6 +28,11 @@ const postSlice = createSlice({
           state.post.comments = action.payload;
         }
       })
+      .addCase(deleteComment.fulfilled, (state, action) => {
+        if (state.post && state.post._id === action.payload.postId) {
+          state.post.comments = action.payload.comments;
+        }
+      })
       .addCase(fetchPosts.rejected, (state, action) => {
         state.error = action.error.message;
         state.loading = false;
@@ -40,6 +45,9 @@ const postSlice = createSlice({
         state.error = action.error.message;
       })
       .addCase(addNewComment.rejected, (state, action) => {
+        state.error = action.error.message;
+      })
+      .addCase(deleteComment.rejected, (state, action) => {
         state.error = action.error.message;
       });
   }

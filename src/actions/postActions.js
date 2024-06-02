@@ -53,3 +53,17 @@ export const addNewComment = createAsyncThunk('posts/addNewComment', async (post
         throw error;
     }
 });
+
+export const deleteComment = createAsyncThunk('posts/deleteComment', async ({ postId, commentId }, thunkAPI) => {
+    const config = {
+      headers: {
+        'Authorization': `Bearer ${localStorage.token}`
+      }
+    };
+    try {
+      const res = await axios.delete(`http://localhost:5000/api/posts/${postId}/comments/${commentId}`, config);
+      return { postId, comments: res.data };
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err.response.data);
+    }
+  });
