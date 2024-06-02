@@ -17,6 +17,7 @@ const authSlice = createSlice({
       state.token = action.payload.token;
       state.isAuthenticated = true;
       state.loading = false;
+      state.user = action.payload.user;
       state.role = action.payload.user.role;
     },
     registerFail(state) {
@@ -30,6 +31,7 @@ const authSlice = createSlice({
       state.token = action.payload.token;
       state.isAuthenticated = true;
       state.loading = false;
+      state.user = action.payload.user;
       state.role = action.payload.user.role;
     },
     loginFail(state) {

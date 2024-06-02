@@ -1,15 +1,12 @@
-import { thunk } from 'redux-thunk';
-import rootReducer from './reducers';
 import { configureStore } from '@reduxjs/toolkit';
+import authReducer from './reducers/authReducer';
+import postReducer from './reducers/postReducer';
 
-const initialState = {};
-
-const middleware = [thunk];
 const store = configureStore({
-    reducer: rootReducer,
-    preloadedState: initialState,
-    middleware: getDefaultMiddleware => getDefaultMiddleware().concat(...middleware),
-    devTools: true
+  reducer: {
+    auth: authReducer,
+    posts: postReducer,
+  },
 });
 
 export default store;

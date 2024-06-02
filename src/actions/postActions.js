@@ -21,7 +21,12 @@ export const fetchPost = (id) => async (dispatch) => {
 
 export const createNewPost = (postData) => async (dispatch) => {
     try {
-        const res = await axios.post('http://localhost:5000/api/posts', postData);
+        const res = await axios.post('http://localhost:5000/api/posts', postData, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            }
+        });
         dispatch(createPostSuccess(res.data));
     } catch (error) {
         console.error(error);
@@ -36,4 +41,3 @@ export const addNewComment = (postId, commentData) => async (dispatch) => {
         console.error(error);
     }
 };
-

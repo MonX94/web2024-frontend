@@ -4,12 +4,18 @@ import { createNewPost } from '../actions/postActions';
 import { Form, Button, Container } from 'react-bootstrap';
 
 const CreatePost = () => {
-  const [formData, setFormData] = useState({ title: '', content: '' });
+  const [formData, setFormData] = useState({
+    title: '',
+    content: ''
+  });
+
   const dispatch = useDispatch();
 
-  const onChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
+  const { title, content } = formData;
 
-  const onSubmit = (e) => {
+  const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
+
+  const onSubmit = e => {
     e.preventDefault();
     dispatch(createNewPost(formData));
   };
@@ -18,15 +24,34 @@ const CreatePost = () => {
     <Container>
       <h1>Create Post</h1>
       <Form onSubmit={onSubmit}>
-        <Form.Group>
+        <Form.Group controlId="title">
           <Form.Label>Title</Form.Label>
-          <Form.Control type="text" name="title" value={formData.title} onChange={onChange} required />
+          <Form.Control
+            type="text"
+            placeholder="Enter title"
+            name="title"
+            value={title}
+            onChange={onChange}
+            required
+          />
         </Form.Group>
-        <Form.Group>
+
+        <Form.Group controlId="content">
           <Form.Label>Content</Form.Label>
-          <Form.Control as="textarea" name="content" value={formData.content} onChange={onChange} required />
+          <Form.Control
+            as="textarea"
+            rows={3}
+            placeholder="Enter content"
+            name="content"
+            value={content}
+            onChange={onChange}
+            required
+          />
         </Form.Group>
-        <Button type="submit">Create Post</Button>
+
+        <Button variant="primary" type="submit">
+          Create
+        </Button>
       </Form>
     </Container>
   );
