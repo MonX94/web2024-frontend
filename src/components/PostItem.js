@@ -18,7 +18,7 @@ const PostItem = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    dispatch(addNewComment({ postId: id, content: comment }));
+    dispatch(addNewComment({ postId: {_id: id}, content: comment }));
     setComment('');
   };
 

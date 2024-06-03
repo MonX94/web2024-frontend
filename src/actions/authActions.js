@@ -1,4 +1,3 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
 import { registerSuccess, registerFail, loginSuccess, loginFail, logoutSuccess } from '../reducers/authReducer';
 
 import axios from 'axios';
@@ -50,12 +49,13 @@ export const logout = () => (dispatch) => {
   dispatch(logoutSuccess());
 }
 
-// Додано для завантаження списку користувачів
-export const loadUsers = createAsyncThunk('auth/loadUsers', async (_, thunkAPI) => {
+export const fetchUsernameById = (userId) => async (dispatch) => {
   try {
-    const res = await axios.get('http://localhost:5000/api/users');
-    return res.data;
-  } catch (err) {
-    return thunkAPI.rejectWithValue(err.response.data);
+    console.log("userId", userId)
+    const res = await axios.get(`http://localhost:5000/api/auth/users/${userId._id}`);
+    return res.data.username;
+  } catch (error) {
+    console.error('Error fetching username:', error);
+    return null;
   }
-});
+};
