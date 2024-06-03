@@ -11,9 +11,9 @@ export const loadUser = () => async (dispatch) => {
     const res = await axios.get('http://localhost:5000/api/auth/user');
     res.data.token = localStorage.token;
     dispatch(loginSuccess(res.data));
-  } catch (err) {
-    console.log(err);
-    dispatch(loginFail(err.response.data.msg)); // Передаємо повідомлення про помилку
+  } catch (error) {
+    console.log(error);
+    dispatch(loginFail(error.response.data.msg)); // Передаємо повідомлення про помилку
   }
 };
 
@@ -51,7 +51,6 @@ export const logout = () => (dispatch) => {
 
 export const fetchUsernameById = (userId) => async (dispatch) => {
   try {
-    console.log("userId", userId)
     const res = await axios.get(`http://localhost:5000/api/auth/users/${userId._id}`);
     return res.data.username;
   } catch (error) {
