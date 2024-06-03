@@ -2,8 +2,6 @@ import React from 'react';
 import { Card, Button } from 'react-bootstrap';
 
 const Comment = ({ comment, onDelete, isAdmin }) => {
-    
-
     return (
         <Card className="mb-2">
         <Card.Body>
