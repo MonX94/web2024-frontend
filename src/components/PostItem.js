@@ -34,8 +34,6 @@ const PostItem = () => {
     dispatch(dislikePost(id));
   };
 
-  console.log(post);
-
   const error = useSelector((state) => state.auth.error);
 
   if (!post || user == null) {

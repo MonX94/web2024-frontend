@@ -30,19 +30,13 @@ const postSlice = createSlice({
     },
     likePostSuccess(state, action) {
       const postIndex = state.posts.findIndex(post => post._id === action.payload._id);
-      if (postIndex >= 0) {
-        state.posts[postIndex] = action.payload;
-      } else if (state.post && state.post._id === action.payload._id) {
-        state.post = action.payload;
-      }
+      state.posts[postIndex] = action.payload;
+      state.post = action.payload;
     },
     dislikePostSuccess(state, action) {
       const postIndex = state.posts.findIndex(post => post._id === action.payload._id);
-      if (postIndex >= 0) {
-        state.posts[postIndex] = action.payload;
-      } else if (state.post && state.post._id === action.payload._id) {
-        state.post = action.payload;
-      }
+      state.posts[postIndex] = action.payload;
+      state.post = action.payload;
     },
   },
 });
