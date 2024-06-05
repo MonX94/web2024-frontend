@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { fetchPost, addNewComment, deleteComment } from '../actions/postActions';
+import { fetchPost, addNewComment, deleteComment, likePost, dislikePost } from '../actions/postActions';
 import { Card, Form, Button, Container, Spinner, Alert } from 'react-bootstrap';
 import Comment from './Comment';
 
@@ -26,6 +26,16 @@ const PostItem = () => {
     dispatch(deleteComment({ postId: id, commentId }));
   };
 
+  const handleLike = () => {
+    dispatch(likePost(id));
+  };
+
+  const handleDislike = () => {
+    dispatch(dislikePost(id));
+  };
+
+  console.log(post);
+
   const error = useSelector((state) => state.auth.error);
 
   if (!post || user == null) {
@@ -36,6 +46,9 @@ const PostItem = () => {
       </Container>
     );
   }
+  
+  const hasLiked = post.likedBy && user && post.likedBy.includes(user._id);
+  const hasDisliked = post.dislikedBy && user && post.dislikedBy.includes(user._id);
 
   return (
     <Container>
@@ -43,6 +56,13 @@ const PostItem = () => {
         <Card.Body>
           <Card.Title>{post.title}</Card.Title>
           <Card.Text>{post.content}</Card.Text>
+          <Button variant="success" onClick={handleLike} disabled={!isAuthenticated}>
+            {hasLiked ? 'Unlike' : 'Like'}
+          </Button>
+          <div className="ml-2">{post.likes - post.dislikes}</div>
+          <Button variant="danger" onClick={handleDislike} disabled={!isAuthenticated}>
+            {hasDisliked ? 'Undislike' : 'Dislike'}
+          </Button>
           <Card.Footer>
             {post.comments.map(comment => (
               <Comment key={comment._id} comment={comment} onDelete={handleDelete} isAdmin={user.role === 'admin'} />
