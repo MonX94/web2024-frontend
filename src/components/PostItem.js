@@ -45,8 +45,8 @@ const PostItem = () => {
     );
   }
   
-  const hasLiked = post.likedBy && user && post.likedBy.includes(user._id);
-  const hasDisliked = post.dislikedBy && user && post.dislikedBy.includes(user._id);
+  const userLiked = post.likedBy.includes(user?.id);
+  const userDisliked = post.dislikedBy.includes(user?.id);
 
   return (
     <Container>
@@ -55,12 +55,12 @@ const PostItem = () => {
           <Card.Title>{post.title}</Card.Title>
           <Card.Text>{post.content}</Card.Text>
           <div className="d-flex flex-column justify-content-center w-25">
-            <Button variant="success" onClick={handleLike} disabled={!isAuthenticated}>
-              {hasLiked ? 'Unlike' : 'Like'}
+            <Button variant={userLiked ? "secondary" : "success"} onClick={handleLike} disabled={!isAuthenticated}>
+              {userLiked ? 'Unlike' : 'Like'}
             </Button>
             <span className="mt-2 mb-2 text-center">{post.likes - post.dislikes}</span>
-            <Button className="mb-2" variant="danger" onClick={handleDislike} disabled={!isAuthenticated}>
-              {hasDisliked ? 'Undislike' : 'Dislike'}
+            <Button className="mb-2" variant={userDisliked ? "secondary" : "danger"} onClick={handleDislike} disabled={!isAuthenticated}>
+              {userDisliked ? 'Undislike' : 'Dislike'}
             </Button>
           </div>
           <Card.Footer>
