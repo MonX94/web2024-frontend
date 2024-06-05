@@ -18,7 +18,7 @@ const PostItem = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    dispatch(addNewComment({ postId: {_id: id}, content: comment }));
+    dispatch(addNewComment({ postId: id, content: comment }));
     setComment('');
   };
 
@@ -54,13 +54,15 @@ const PostItem = () => {
         <Card.Body>
           <Card.Title>{post.title}</Card.Title>
           <Card.Text>{post.content}</Card.Text>
-          <Button variant="success" onClick={handleLike} disabled={!isAuthenticated}>
-            {hasLiked ? 'Unlike' : 'Like'}
-          </Button>
-          <div className="ml-2">{post.likes - post.dislikes}</div>
-          <Button variant="danger" onClick={handleDislike} disabled={!isAuthenticated}>
-            {hasDisliked ? 'Undislike' : 'Dislike'}
-          </Button>
+          <div className="d-flex flex-column justify-content-center w-25">
+            <Button variant="success" onClick={handleLike} disabled={!isAuthenticated}>
+              {hasLiked ? 'Unlike' : 'Like'}
+            </Button>
+            <span className="mt-2 mb-2 text-center">{post.likes - post.dislikes}</span>
+            <Button className="mb-2" variant="danger" onClick={handleDislike} disabled={!isAuthenticated}>
+              {hasDisliked ? 'Undislike' : 'Dislike'}
+            </Button>
+          </div>
           <Card.Footer>
             {post.comments.map(comment => (
               <Comment key={comment._id} comment={comment} onDelete={handleDelete} isAdmin={user.role === 'admin'} />
